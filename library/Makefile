@@ -1,7 +1,7 @@
 
 # Also see "include/mbedtls/config.h"
 
-CFLAGS	?= -O2
+CFLAGS	?= -O0 -g3
 WARNING_CFLAGS ?=  -Wall -Wextra -Wformat=2 -Wno-format-nonliteral
 LDFLAGS ?=
 
@@ -12,9 +12,9 @@ LDFLAGS ?=
 LOCAL_CFLAGS = $(WARNING_CFLAGS) -I. -I../include -D_FILE_OFFSET_BITS=64
 LOCAL_LDFLAGS =
 
-ifdef DEBUG
-LOCAL_CFLAGS += -g3
-endif
+#ifdef DEBUG
+LOCAL_CFLAGS += -g3 -o0
+#endif
 
 # MicroBlaze specific options:
 # CFLAGS += -mno-xl-soft-mul -mxl-barrel-shift
