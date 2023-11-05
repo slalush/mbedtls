@@ -590,6 +590,9 @@ int mbedtls_ecdsa_sign_det_ext( mbedtls_ecp_group *grp, mbedtls_mpi *r,
 }
 #endif /* MBEDTLS_ECDSA_DETERMINISTIC */
 
+volatile uint8_t pointx[96];
+volatile uint8_t pointy[96];
+
 #if !defined(MBEDTLS_ECDSA_VERIFY_ALT)
 /*
  * Verify ECDSA signature of hashed message (SEC1 4.1.4)
@@ -681,6 +684,13 @@ muladd:
      */
     MBEDTLS_MPI_CHK( mbedtls_mpi_mod_mpi( &R.X, &R.X, &grp->N ) );
 
+    uint8_t *ptr = (uint8_t *)R.X.p;
+        uint8_t *ptr2 = (uint8_t *)R.Y.p;
+        for (int i = 0; i < 48; i++)
+        {
+        	pointx[i] = ptr[i];
+        	pointy[i] = ptr2[i];
+        }
     /*
      * Step 8: check if v (that is, R.X) is equal to r
      */
